@@ -8,6 +8,7 @@ Created on Sat Nov 16 10:57:54 2024
 import numpy as np
 import matplotlib.pyplot as plt
 import os
+import datagen
 from skimage.transform import resize
 
 
@@ -16,9 +17,7 @@ def generate_system_matrix(grid_size, num_strips=32, num_rotations=16):
     Generate the system matrix for a given grid size.
     """
     dy_strip = 2 / num_strips  # Strip width
-    x = np.linspace(-1, 1, grid_size)
-    y = np.linspace(-1, 1, grid_size)
-    X, Y = np.meshgrid(x, y)
+    X, Y = datagen.generate_discrete_grid(grid_size)
     mask = (X**2 + Y**2) <= 1  # Disk mask
     pixel_area = (2 / (grid_size - 1))**2  # Area of each pixel
 
