@@ -2,6 +2,15 @@ import os
 import numpy as np
 import matplotlib.pyplot as plt
 
+def generate_grid(grid_size=128):
+    """
+    Generate a 2D grid of coordinates.
+    """
+    x = np.linspace(-1, 1, grid_size)
+    y = np.linspace(-1, 1, grid_size)
+    X, Y = np.meshgrid(x, y)
+    return X, Y
+
 def generate_signal(grid_size=128, A_s=3):
     """
     Generate the signal component.
@@ -25,11 +34,12 @@ def generate_background(grid_size=128, N=10, sigma_s=None):
     """
     Generate the background component.
     """
+
+    f_b = np.zeros_like(X)
+
     x = np.linspace(-1, 1, grid_size)
     y = np.linspace(-1, 1, grid_size)
     X, Y = np.meshgrid(x, y)
-
-    f_b = np.zeros_like(X)
 
     for _ in range(N):
         c_xn, c_yn = np.random.uniform(-0.5, 0.5, 2)  # Lump center
