@@ -10,10 +10,6 @@ import matplotlib.pyplot as plt
 import os
 from skimage.transform import resize
 
-# Set a random seed for reproducibility
-RANDOM_SEED = 42
-np.random.seed(RANDOM_SEED)
-
 
 def generate_system_matrix(grid_size, num_strips=32, num_rotations=16):
     """
@@ -24,7 +20,7 @@ def generate_system_matrix(grid_size, num_strips=32, num_rotations=16):
     y = np.linspace(-1, 1, grid_size)
     X, Y = np.meshgrid(x, y)
     mask = (X**2 + Y**2) <= 1  # Disk mask
-    pixel_area = (2 / grid_size)**2  # Area of each pixel
+    pixel_area = (2 / (grid_size - 1))**2  # Area of each pixel
 
     num_sensitivity_functions = num_strips * num_rotations
     H = np.zeros((num_sensitivity_functions, grid_size**2))
@@ -146,10 +142,3 @@ def process_grid_size(grid_size, object_dir="object_realizations", output_dir="p
     # Visualize random samples
     visualize_random_images(grid_size, original_objects, reconstructions, num_to_show=num_to_show)
 
-
-if __name__ == "__main__":
-    grid_sizes = [64, 32, 8]
-    for grid_size in grid_sizes:
-        process_grid_size(grid_size)
-
-    print("All processing completed.")
