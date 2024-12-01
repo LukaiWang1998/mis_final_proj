@@ -1,4 +1,7 @@
 import numpy as np
+import matplotlib.pyplot as plt
+import os
+import re
 
 def generate_discrete_grid(grid_size=128):
     """
@@ -58,3 +61,31 @@ def generate_segmentation_labels(signal_mask):
     labels = np.ones_like(signal_mask, dtype=int)
     labels[signal_mask] = 2
     return labels
+
+def sort_names_with_numbers(names):
+    """
+    Sort a list of strings with numbers in them.
+    """
+    def key_func(name):
+        return [int(s) if s.isdigit() else s for s in re.split(r'(\d+)', name)]
+    return sorted(names, key=key_func)
+
+def get_data_files_from_folder(data_folder):
+    """
+    Get data filenames from a folder containing npy files. Returns in sorted order.
+    """
+    files = [f for f in os.listdir(data_folder) if f.endswith(".npy")]
+    files = sort_names_with_numbers(files)
+    return files
+
+def get_data_contents_from_folder(data_folder):
+    """
+    Get data from a folder containing npy files. Returns in sorted order.
+    """
+    files = [f for f in os.listdir(data_folder) if f.endswith(".npy")]
+    files = sort_names_with_numbers(files)
+    data = [np.load(os.path.join(data_folder, f)) for f in files]
+    return data
+   
+
+
