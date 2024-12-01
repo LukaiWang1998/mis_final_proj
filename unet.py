@@ -85,7 +85,22 @@ def get_data(data_folder, image_size = 128):
     gt_array = np.array(input_masks)
     return input_array, gt_array
 
-    
+def data_split(data):
+    x, y = data
+    x_test = x[0:100]
+    x_train = x[100:]
+    y_test = y[0:100]
+    y_train = y[100:]
+    return x_test, x_train, y_test, y_train   
+
+def dsc(y_pred, y_test):
+    y_test = np.squeeze(y_test)
+    intersect = np.sum(y_pred * y_test, axis = (1, 2))
+    union = np.sum(y_pred, axis = (1, 2)) + np.sum(y_test, axis = (1, 2))
+    dsc = 2*intersect/union
+    dsc[np.isnan(dsc)] = 1
+    return dsc
+
 
 def visualize_random(grid_size, reconstructions, masks, predictions, num_to_show=10):
     """
