@@ -52,7 +52,7 @@ def generate_object(grid_size=128, N=10):
     f_s, signal_mask, sigma_s = generate_signal(grid_size)
     f_b = generate_background(grid_size, N, sigma_s)
     f = f_s + f_b
-    return f, signal_mask
+    return f, signal_mask, sigma_s
 
 def generate_segmentation_labels(signal_mask):
     """
